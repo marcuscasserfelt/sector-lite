@@ -3,6 +3,7 @@
   "name": "Sector Lite",
   "version": "0.0.1",
   "documentation": "https://github.com/marcuscasserfelt/sector-lite",
+  "issue_tracker": "https://github.com/marcuscasserfelt/sector-lite/issues",
   "requirements": [],
   "dependencies": [],
   "codeowners": ["@marcuscasserfelt"],
