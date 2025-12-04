@@ -1,0 +1,12 @@
+{
+  "domain": "sector_lite",
+  "name": "Sector Lite",
+  "version": "0.0.1",
+  "documentation": "https://github.com/marcuscasserfelt/sector-lite",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@marcuscasserfelt"],
+  "config_flow": true,
+  "iot_class": "cloud_polling",
+  "loggers": ["custom_components.sector_lite"]
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Sector Lite",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Sector Lite Setup",
+        "description": "Enter your Sector Alarm credentials.",
+        "data": {
+          "username": "User ID",
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid username or password.",
+      "cannot_connect": "Unable to connect to the Sector Alarm service."
+    },
+    "abort": {
+      "already_configured": "This account is already configured."
+    }
+  }
+}

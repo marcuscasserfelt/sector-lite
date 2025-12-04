@@ -1,0 +1,22 @@
+{
+  "title": "Sector Lite",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Konfiguration av Sector Lite",
+        "description": "Ange dina inloggningsuppgifter för Sector Alarm.",
+        "data": {
+          "username": "Användar-ID",
+          "password": "Lösenord"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Ogiltigt användar-ID eller lösenord.",
+      "cannot_connect": "Kunde inte ansluta till Sector Alarm-tjänsten."
+    },
+    "abort": {
+      "already_configured": "Det här kontot är redan konfigurerat."
+    }
+  }
+}
