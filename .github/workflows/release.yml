@@ -5,6 +5,10 @@ on:
     tags:
       - "v*"
 
+# REQUIRED so GitHub token can create releases
+permissions:
+  contents: write
+
 jobs:
   release:
     name: Create GitHub Release
@@ -17,8 +21,8 @@ jobs:
       - name: Extract version from tag
         id: tag
         run: |
-          TAG_NAME="${GITHUB_REF_NAME}"          # e.g. v0.0.2
-          VERSION="${TAG_NAME#v}"                # strip "v" -> 0.0.2
+          TAG_NAME="${GITHUB_REF_NAME}"      # e.g. v0.0.2
+          VERSION="${TAG_NAME#v}"            # strip leading v
           echo "tag_name=${TAG_NAME}" >> "$GITHUB_OUTPUT"
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
 
@@ -35,6 +39,7 @@ jobs:
           print(data.get("version", ""))
           PY
           )
+
           echo "Manifest version: ${MANIFEST_VERSION}"
           echo "Tag version:      ${{ steps.tag.outputs.version }}"
 
@@ -65,7 +70,5 @@ jobs:
             See CHANGELOG.md for details.
           draft: false
           prerelease: false
-          files: |
-            dist/sector_lite-${{ steps.tag.outputs.version }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          files: dist/sector_lite-${{ steps.tag.outputs.version }}.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
