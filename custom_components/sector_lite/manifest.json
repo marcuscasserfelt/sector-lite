@@ -1,7 +1,7 @@
 {
   "domain": "sector_lite",
   "name": "Sector Lite",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "documentation": "https://github.com/marcuscasserfelt/sector-lite",
   "issue_tracker": "https://github.com/marcuscasserfelt/sector-lite/issues",
   "requirements": [],

@@ -1,0 +1,71 @@
+name: Publish Sector Lite release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: tag
+        run: |
+          TAG_NAME="${GITHUB_REF_NAME}"          # e.g. v0.0.2
+          VERSION="${TAG_NAME#v}"                # strip "v" -> 0.0.2
+          echo "tag_name=${TAG_NAME}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Verify manifest.json version matches tag
+        id: manifest
+        run: |
+          FILE="custom_components/sector_lite/manifest.json"
+          echo "Reading version from $FILE"
+
+          MANIFEST_VERSION=$(python - << 'PY'
+          import json
+          with open("custom_components/sector_lite/manifest.json", encoding="utf-8") as f:
+              data = json.load(f)
+          print(data.get("version", ""))
+          PY
+          )
+          echo "Manifest version: ${MANIFEST_VERSION}"
+          echo "Tag version:      ${{ steps.tag.outputs.version }}"
+
+          if [ "$MANIFEST_VERSION" != "${{ steps.tag.outputs.version }}" ]; then
+            echo "ERROR: Version in manifest.json does not match tag"
+            exit 1
+          fi
+
+      - name: Create ZIP of integration
+        run: |
+          mkdir -p dist
+          cd custom_components
+          zip -r ../dist/sector_lite-${{ steps.tag.outputs.version }}.zip sector_lite
+          cd ..
+          ls -R dist
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag_name }}
+          name: Sector Lite ${{ steps.tag.outputs.tag_name }}
+          body: |
+            Sector Lite ${{ steps.tag.outputs.tag_name }}
+
+            This release was generated automatically from the tag.
+            Version in manifest.json: ${{ steps.tag.outputs.version }}
+
+            See CHANGELOG.md for details.
+          draft: false
+          prerelease: false
+          files: |
+            dist/sector_lite-${{ steps.tag.outputs.version }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
